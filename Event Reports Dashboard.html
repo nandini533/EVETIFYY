@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reports & Analytics | Event Management System</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#4f46e5',
+secondary: '#6366f1'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+}
+}
+}
+}
+</script>
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #3498db;
+}
+</style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+<div class="flex min-h-screen">
+<aside class="w-64 bg-white border-r border-gray-200 flex flex-col">
+  <div class="container header-container">
+                <a href="#" class="logo">EVNTIFY</a>
+            </div>
+<nav class="flex-1 p-4">
+<div class="space-y-2">
+<a href="eventbase.html" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-button">
+                        <i class="ri-home-line w-5 h-5 flex items-center justify-center"></i>
+                        <span class="ml-3">Home</span>
+                    </a>
+
+ <a href="Event Analytics Dashboard.html" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-button">
+                        <i class="ri-dashboard-line w-5 h-5 flex items-center justify-center"></i>
+                        <span class="ml-3">Statistics</span>
+                    </a>
+                    <a href="Event Dashboard.html" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-button">
+                        <i class="ri-calendar-event-line w-5 h-5 flex items-center justify-center"></i>
+                        <span class="ml-3">Events</span>
+                    </a>
+                    <a href="Event Reports Dashboard.html" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-button">
+                        <i class="ri-file-chart-line w-5 h-5 flex items-center justify-center"></i>
+                        <span class="ml-3">Reports</span>
+                    </a>
+                    <a href="Event Management Settings.html" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-button">
+                        <i class="ri-settings-line w-5 h-5 flex items-center justify-center"></i>
+                        <span class="ml-3">Settings</span>
+                    </a>
+</div>
+</nav>
+</aside>
+<main class="flex-1">
+<header class="bg-white border-b border-gray-200">
+<div class="flex items-center justify-between px-6 py-4">
+<div class="flex items-center space-x-4">
+<h1 class="text-xl font-semibold text-gray-900">Reports & Analytics</h1>
+</div>
+<div class="flex items-center space-x-6">
+<div class="flex items-center space-x-3">
+<button id="dateRangeBtn" class="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-button text-sm" onclick="toggleDateRangeDropdown()">
+<i class="ri-calendar-line w-4 h-4 flex items-center justify-center"></i>
+<span id="selectedDateRange">Last 7 days</span>
+<i class="ri-arrow-down-s-line"></i>
+</button>
+<div id="dateRangeDropdown" class="hidden absolute mt-12 right-48 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+<div class="py-1">
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="selectDateRange('Last 7 days')">Last 7 days</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="selectDateRange('Last 30 days')">Last 30 days</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="selectDateRange('This month')">This month</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="selectDateRange('Last month')">Last month</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="selectDateRange('Custom range')">Custom range</a>
+</div>
+</div>
+<button class="flex items-center space-x-2 px-4 py-2 text-white bg-primary rounded-button hover:bg-primary/90">
+<i class="ri-download-line w-4 h-4 flex items-center justify-center"></i>
+<span>Export</span>
+</button>
+</div>
+<div class="flex items-center space-x-4">
+<button class="relative w-10 h-10 flex items-center justify-center text-gray-600 hover:bg-gray-100 rounded-full">
+<i class="ri-notification-line w-5 h-5 flex items-center justify-center"></i>
+<span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+</button>
+<div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+<i class="ri-user-line text-gray-600"></i>
+</div>
+</div>
+</div>
+</header>
+<div class="p-6 space-y-6">
+<div class="grid grid-cols-4 gap-6">
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-sm font-medium text-gray-500">Total Events</h3>
+<i class="ri-calendar-event-line w-8 h-8 flex items-center justify-center text-primary bg-primary/10 rounded-full"></i>
+</div>
+<div class="flex items-baseline space-x-2">
+<span class="text-2xl font-semibold text-gray-900">248</span>
+<span class="text-sm text-green-500">+12.5%</span>
+</div>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-sm font-medium text-gray-500">Total Attendees</h3>
+<i class="ri-group-line w-8 h-8 flex items-center justify-center text-primary bg-primary/10 rounded-full"></i>
+</div>
+<div class="flex items-baseline space-x-2">
+<span class="text-2xl font-semibold text-gray-900">12,486</span>
+<span class="text-sm text-green-500">+18.2%</span>
+</div>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-sm font-medium text-gray-500">Registration Rate</h3>
+<i class="ri-line-chart-line w-8 h-8 flex items-center justify-center text-primary bg-primary/10 rounded-full"></i>
+</div>
+<div class="flex items-baseline space-x-2">
+<span class="text-2xl font-semibold text-gray-900">86.4%</span>
+<span class="text-sm text-green-500">+5.3%</span>
+</div>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-sm font-medium text-gray-500">Total Revenue</h3>
+<i class="ri-money-dollar-circle-line w-8 h-8 flex items-center justify-center text-primary bg-primary/10 rounded-full"></i>
+</div>
+<div class="flex items-baseline space-x-2">
+<span class="text-2xl font-semibold text-gray-900">$124,856</span>
+<span class="text-sm text-green-500">+24.6%</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-base font-semibold text-gray-900">Event Attendance Trends</h3>
+<div class="flex items-center space-x-2">
+<button class="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded-button">Daily</button>
+<button class="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded-button">Weekly</button>
+<button class="px-3 py-1 text-sm text-white bg-primary rounded-button">Monthly</button>
+</div>
+</div>
+<div id="attendanceTrendChart" class="w-full h-[300px]"></div>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-base font-semibold text-gray-900">Revenue Analysis</h3>
+<div class="flex items-center space-x-2">
+<button class="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded-button">Tickets</button>
+<button class="px-3 py-1 text-sm text-white bg-primary rounded-button">Total</button>
+</div>
+</div>
+<div id="revenueChart" class="w-full h-[300px]"></div>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-sm">
+<div class="p-6 border-b border-gray-200">
+<div class="flex items-center justify-between">
+<h3 class="text-base font-semibold text-gray-900">Recent Events</h3>
+<div class="flex items-center space-x-2">
+<div class="relative">
+<input type="text" placeholder="Search events..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-button text-sm w-64">
+<i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+</div>
+<button class="p-2 text-gray-600 hover:bg-gray-100 rounded-button">
+<i class="ri-filter-3-line w-5 h-5 flex items-center justify-center"></i>
+</button>
+</div>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full">
+<thead class="bg-gray-50">
+<tr>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Event Name</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Registrations</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Attendance</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Revenue</th>
+<th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+</tr>
+</thead>
+<tbody class="bg-white divide-y divide-gray-200">
+<tr>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+<i class="ri-presentation-line text-primary"></i>
+</div>
+<div class="ml-4">
+<div class="text-sm font-medium text-gray-900">Tech Innovation Summit 2025</div>
+<div class="text-sm text-gray-500">San Francisco, CA</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Mar 15, 2025</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Conference</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">856</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">92%</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$42,800</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<a href="https://readdy.ai/home/0bc90963-c895-480b-9d9e-6e4a77c34d09/afa22921-489d-4ba0-b5b1-6d90e7545fe7" data-readdy="true" class="text-primary hover:text-primary/90">View Report</a>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+<i class="ri-community-line text-primary"></i>
+</div>
+<div class="ml-4">
+<div class="text-sm font-medium text-gray-900">Digital Marketing Workshop</div>
+<div class="text-sm text-gray-500">New York, NY</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Mar 10, 2025</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Workshop</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">245</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">88%</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$12,250</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<a href="https://readdy.ai/home/0bc90963-c895-480b-9d9e-6e4a77c34d09/afa22921-489d-4ba0-b5b1-6d90e7545fe7" data-readdy="true" class="text-primary hover:text-primary/90">View Report</a>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+<i class="ri-team-line text-primary"></i>
+</div>
+<div class="ml-4">
+<div class="text-sm font-medium text-gray-900">Leadership Summit</div>
+<div class="text-sm text-gray-500">Chicago, IL</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Mar 8, 2025</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">Summit</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">412</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">94%</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$20,600</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<a href="" class="text-primary hover:text-primary/90">View Report</a>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 border-t border-gray-200">
+<div class="flex items-center justify-between">
+<div class="text-sm text-gray-500">
+Showing 1 to 3 of 20 events
+</div>
+<div class="flex items-center space-x-2">
+<button class="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded-button">Previous</button>
+<button class="px-3 py-1 text-sm text-white bg-primary rounded-button">1</button>
+<button class="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded-button">2</button>
+<button class="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded-button">3</button>
+<button class="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded-button">Next</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+const attendanceData = {
+months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+values: [1200, 1350, 1500, 1800, 2100, 2400, 2800, 3200, 3600, 4000, 4500, 5000]
+};
+const revenueData = {
+months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+values: [15000, 18000, 22000, 25000, 28000, 32000, 38000, 42000, 48000, 52000, 58000, 65000]
+};
+const attendanceTrendChart = echarts.init(document.getElementById('attendanceTrendChart'));
+const revenueChart = echarts.init(document.getElementById('revenueChart'));
+attendanceTrendChart.setOption({
+animation: false,
+grid: {
+top: 10,
+right: 30,
+bottom: 30,
+left: 60
+},
+xAxis: {
+type: 'category',
+data: attendanceData.months,
+axisLine: {
+lineStyle: {
+color: '#e5e7eb'
+}
+},
+axisLabel: {
+color: '#6b7280'
+}
+},
+yAxis: {
+type: 'value',
+axisLine: {
+show: false
+},
+axisLabel: {
+color: '#6b7280'
+},
+splitLine: {
+lineStyle: {
+color: '#e5e7eb'
+}
+}
+},
+series: [{
+data: attendanceData.values,
+type: 'line',
+smooth: true,
+symbol: 'none',
+lineStyle: {
+color: 'rgba(87, 181, 231, 1)'
+},
+areaStyle: {
+color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+offset: 0,
+color: 'rgba(87, 181, 231, 0.2)'
+}, {
+offset: 1,
+color: 'rgba(87, 181, 231, 0)'
+}])
+}
+}]
+});
+revenueChart.setOption({
+animation: false,
+grid: {
+top: 10,
+right: 30,
+bottom: 30,
+left: 60
+},
+xAxis: {
+type: 'category',
+data: revenueData.months,
+axisLine: {
+lineStyle: {
+color: '#e5e7eb'
+}
+},
+axisLabel: {
+color: '#6b7280'
+}
+},
+yAxis: {
+type: 'value',
+axisLine: {
+show: false
+},
+axisLabel: {
+color: '#6b7280',
+formatter: (value) => `$${value.toLocaleString()}`
+},
+splitLine: {
+lineStyle: {
+color: '#e5e7eb'
+}
+}
+},
+series: [{
+data: revenueData.values,
+type: 'line',
+smooth: true,
+symbol: 'none',
+lineStyle: {
+color: 'rgba(141, 211, 199, 1)'
+},
+areaStyle: {
+color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+offset: 0,
+color: 'rgba(141, 211, 199, 0.2)'
+}, {
+offset: 1,
+color: 'rgba(141, 211, 199, 0)'
+}])
+}
+}]
+});
+window.addEventListener('resize', () => {
+attendanceTrendChart.resize();
+revenueChart.resize();
+});
+function toggleDateRangeDropdown() {
+const dropdown = document.getElementById('dateRangeDropdown');
+dropdown.classList.toggle('hidden');
+}
+function selectDateRange(range) {
+document.getElementById('selectedDateRange').textContent = range;
+document.getElementById('dateRangeDropdown').classList.add('hidden');
+if (range === 'Custom range') {
+showCustomRangePicker();
+}
+}
+function showCustomRangePicker() {
+const modal = document.createElement('div');
+modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+modal.innerHTML = `
+<div class="bg-white rounded-lg w-[400px] max-w-lg mx-4">
+<div class="p-6">
+<h3 class="text-lg font-semibold text-gray-900 mb-4">Select Date Range</h3>
+<div class="space-y-4">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+<input type="date" class="w-full px-4 py-2 border border-gray-300 rounded-button text-sm">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">End Date</label>
+<input type="date" class="w-full px-4 py-2 border border-gray-300 rounded-button text-sm">
+</div>
+</div>
+</div>
+<div class="px-6 py-4 bg-gray-50 rounded-b-lg flex justify-end space-x-3">
+<button class="px-4 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-button hover:bg-gray-50">Cancel</button>
+<button class="px-4 py-2 text-sm text-white bg-primary rounded-button hover:bg-primary/90">Apply</button>
+</div>
+</div>
+`;
+document.body.appendChild(modal);
+const [cancelBtn, applyBtn] = modal.querySelectorAll('button');
+cancelBtn.onclick = () => modal.remove();
+applyBtn.onclick = () => {
+const [startDate, endDate] = modal.querySelectorAll('input[type="date"]');
+const formattedRange = `${startDate.value} - ${endDate.value}`;
+document.getElementById('selectedDateRange').textContent = formattedRange;
+modal.remove();
+};
+}
+document.addEventListener('click', (e) => {
+const dropdown = document.getElementById('dateRangeDropdown');
+const dateRangeBtn = document.getElementById('dateRangeBtn');
+if (!dropdown.contains(e.target) && !dateRangeBtn.contains(e.target)) {
+dropdown.classList.add('hidden');
+}
+});
+</script>
+</body>
+</html>

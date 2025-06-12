@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event Dashboard | Event Management System</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#4f46e5',
+secondary: '#6366f1'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+}
+}
+}
+}
+</script>
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #3498db;
+}
+</style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+<div class="flex min-h-screen">
+<aside class="w-64 bg-white border-r border-gray-200 flex flex-col">
+  <div class="container header-container">
+                <a href="#" class="logo">EVNTIFY</a>
+            </div>
+<nav class="flex-1 p-4">
+<div class="space-y-2">
+<a href="eventbase.html" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-button">
+                        <i class="ri-home-line w-5 h-5 flex items-center justify-center"></i>
+                        <span class="ml-3">Home</span>
+                    </a>
+ <a href="Event Analytics Dashboard.html" class="flex items-center px-4 py-2 text-gray-600 bg-gray-100 rounded-button">
+                        <i class="ri-dashboard-line w-5 h-5 flex items-center justify-center"></i>
+                        <span class="ml-3">Statistics</span>
+                    </a>
+                    <a href="Event Dashboard.html" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-button">
+                        <i class="ri-calendar-event-line w-5 h-5 flex items-center justify-center"></i>
+                        <span class="ml-3">Events</span>
+                    </a>
+                    <a href="Event Reports Dashboard.html" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-button">
+                        <i class="ri-file-chart-line w-5 h-5 flex items-center justify-center"></i>
+                        <span class="ml-3">Reports</span>
+                    </a>
+                    <a href="Event Management Settings.html" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-button">
+                        <i class="ri-settings-line w-5 h-5 flex items-center justify-center"></i>
+                        <span class="ml-3">Settings</span>
+                    </a>
+
+</div>
+</nav>
+</aside>
+<main class="flex-1">
+<header class="bg-white border-b border-gray-200">
+<div class="flex items-center justify-between px-6 py-4">
+<div class="flex items-center flex-1">
+<div class="relative w-96">
+<input type="text" placeholder="Search events..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-button text-sm">
+<i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 flex items-center justify-center"></i>
+</div>
+</div>
+<div class="flex items-center space-x-4">
+<button class="relative w-10 h-10 flex items-center justify-center text-gray-600 hover:bg-gray-100 rounded-full cursor-pointer">
+<i class="ri-notification-line w-5 h-5 flex items-center justify-center"></i>
+<span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+</button>
+<div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+<i class="ri-user-line text-gray-600"></i>
+</div>
+</div>
+</div>
+</header>
+<div class="p-6">
+<div class="mb-6">
+<h1 class="text-2xl font-semibold text-gray-900">Statistics Overview</h1>
+<p class="text-sm text-gray-600">Track your event metrics and performance</p>
+</div>
+<div class="grid grid-cols-4 gap-6 mb-6">
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+<i class="ri-calendar-event-line text-primary text-xl"></i>
+</div>
+<span class="text-sm font-medium text-primary">+12.5%</span>
+</div>
+<h3 class="text-2xl font-semibold text-gray-900">248</h3>
+<p class="text-sm text-gray-600">Total Events</p>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+<i class="ri-calendar-check-line text-green-600 text-xl"></i>
+</div>
+<span class="text-sm font-medium text-green-600">+8.2%</span>
+</div>
+<h3 class="text-2xl font-semibold text-gray-900">156</h3>
+<p class="text-sm text-gray-600">Active Events</p>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
+<i class="ri-calendar-todo-line text-yellow-600 text-xl"></i>
+</div>
+<span class="text-sm font-medium text-yellow-600">+15.8%</span>
+</div>
+<h3 class="text-2xl font-semibold text-gray-900">92</h3>
+<p class="text-sm text-gray-600">Upcoming Events</p>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+<i class="ri-group-line text-purple-600 text-xl"></i>
+</div>
+<span class="text-sm font-medium text-purple-600">+24.3%</span>
+</div>
+<h3 class="text-2xl font-semibold text-gray-900">12,486</h3>
+<p class="text-sm text-gray-600">Total Attendees</p>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-6 mb-6">
+<div class="col-span-2 bg-white p-6 rounded-lg shadow-sm">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-lg font-semibold text-gray-900">Attendance Trends</h3>
+<div class="flex items-center space-x-2">
+<button class="px-3 py-1 text-sm text-gray-600 bg-gray-100 rounded-full">Week</button>
+<button class="px-3 py-1 text-sm text-gray-600 bg-gray-100 rounded-full">Month</button>
+<button class="px-3 py-1 text-sm text-white bg-primary rounded-full">Year</button>
+</div>
+</div>
+<div id="attendanceTrend" class="w-full h-80"></div>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-lg font-semibold text-gray-900">Event Categories</h3>
+</div>
+<div id="categoryChart" class="w-full h-80"></div>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-6">
+<div class="col-span-2 bg-white rounded-lg shadow-sm">
+<div class="p-6 border-b border-gray-200">
+<h3 class="text-lg font-semibold text-gray-900">Upcoming Events</h3>
+</div>
+<div class="p-6">
+<div class="space-y-6" id="upcomingEventsList"></div>
+</div>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-lg font-semibold text-gray-900">Quick Actions</h3>
+</div>
+<div class="space-y-4">
+<a href="create-event.html">
+<button class="w-full flex items-center justify-center px-4 py-2 bg-primary text-white rounded-button hover:bg-primary/90 cursor-pointer whitespace-nowrap">
+<i class="ri-add-line mr-2"></i>
+Create New Event
+</button>
+</a>
+<a href="Event Reports Dashboard.html"> 
+<button class="w-full flex items-center justify-center px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-button hover:bg-gray-50 cursor-pointer whitespace-nowrap">
+<i class="ri-file-chart-line mr-2"></i>
+Generate Report
+</button>
+</a>
+<a href="Event Management Settings.html">
+<button data-readdy="true" class="w-full flex items-center justify-center px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-button hover:bg-gray-50 cursor-pointer whitespace-nowrap">
+<i class="ri-settings-line mr-2"></i>
+Manage Settings
+</button>
+</a>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+const mockUpcomingEvents = [
+{
+name: "Tech Innovation Summit 2025",
+date: "2025-03-20",
+time: "09:00 AM",
+location: "Convention Center",
+attendees: 350
+},
+{
+name: "Digital Marketing Masterclass",
+date: "2025-03-25",
+time: "02:00 PM",
+location: "Online",
+attendees: 180
+},
+{
+name: "Startup Networking Event",
+date: "2025-04-01",
+time: "06:00 PM",
+location: "Innovation Hub",
+attendees: 120
+}
+];
+function initAttendanceTrendChart() {
+const chart = echarts.init(document.getElementById('attendanceTrend'));
+const option = {
+animation: false,
+grid: {
+top: 20,
+right: 20,
+bottom: 20,
+left: 40,
+containLabel: true
+},
+xAxis: {
+type: 'category',
+data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+axisLine: {
+lineStyle: {
+color: '#E5E7EB'
+}
+},
+axisLabel: {
+color: '#6B7280'
+}
+},
+yAxis: {
+type: 'value',
+axisLine: {
+show: false
+},
+axisLabel: {
+color: '#6B7280'
+},
+splitLine: {
+lineStyle: {
+color: '#E5E7EB'
+}
+}
+},
+series: [{
+data: [820, 932, 901, 934, 1290, 1330, 1320, 1450, 1500, 1600, 1580, 1620],
+type: 'line',
+smooth: true,
+symbolSize: 0,
+lineStyle: {
+width: 3,
+color: '#57B5E7'
+},
+areaStyle: {
+color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+offset: 0,
+color: 'rgba(87, 181, 231, 0.2)'
+}, {
+offset: 1,
+color: 'rgba(87, 181, 231, 0)'
+}])
+}
+}]
+};
+chart.setOption(option);
+}
+function initCategoryChart() {
+const chart = echarts.init(document.getElementById('categoryChart'));
+const option = {
+animation: false,
+tooltip: {
+trigger: 'item'
+},
+series: [{
+type: 'pie',
+radius: ['40%', '70%'],
+itemStyle: {
+borderRadius: 8
+},
+label: {
+show: true,
+position: 'outside',
+formatter: '{b}: {d}%'
+},
+data: [
+{value: 35, name: 'Conference', itemStyle: {color: 'rgba(87, 181, 231, 1)'}},
+{value: 25, name: 'Workshop', itemStyle: {color: 'rgba(141, 211, 199, 1)'}},
+{value: 20, name: 'Seminar', itemStyle: {color: 'rgba(251, 191, 114, 1)'}},
+{value: 20, name: 'Networking', itemStyle: {color: 'rgba(252, 141, 98, 1)'}}
+]
+}]
+};
+chart.setOption(option);
+}
+function populateUpcomingEvents() {
+const eventsList = document.getElementById('upcomingEventsList');
+eventsList.innerHTML = mockUpcomingEvents.map(event => `
+<div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+<div class="flex items-center space-x-4">
+<div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+<i class="ri-calendar-event-line text-primary"></i>
+</div>
+<div>
+<h4 class="text-sm font-medium text-gray-900">${event.name}</h4>
+<p class="text-sm text-gray-600">${event.date} at ${event.time}</p>
+<p class="text-sm text-gray-600">${event.location}</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-medium text-gray-900">${event.attendees}</p>
+<p class="text-sm text-gray-600">Attendees</p>
+</div>
+</div>
+`).join('');
+}
+window.addEventListener('load', () => {
+initAttendanceTrendChart();
+initCategoryChart();
+populateUpcomingEvents();
+});
+window.addEventListener('resize', () => {
+const attendanceChart = echarts.getInstanceByDom(document.getElementById('attendanceTrend'));
+const categoryChart = echarts.getInstanceByDom(document.getElementById('categoryChart'));
+if (attendanceChart) attendanceChart.resize();
+if (categoryChart) categoryChart.resize();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        :where([class^="ri-"])::before { content: "\f3c2"; }
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            z-index: 50;
+        }
+        .dropdown.active {
+            display: block;
+        }
+
+        .notification-panel {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            z-index: 50;
+        }
+        .notification-panel.active {
+            display: block;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #3498db;
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="flex min-h-screen">
+        <aside class="w-64 bg-white border-r border-gray-200 flex flex-col">
+              <div class="container header-container">
+                <a href="#" class="logo">EVNTIFY</a>
+            </div>
+
+
+            <nav class="flex-1 p-4">
+                <div class="space-y-2">
+<a href="eventbase.html" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-button">
+                        <i class="ri-home-line w-5 h-5 flex items-center justify-center"></i>
+                        <span class="ml-3">Home</span>
+                    </a>
+
+                    <a href="Event Analytics Dashboard.html" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-button">
+                        <i class="ri-dashboard-line w-5 h-5 flex items-center justify-center"></i>
+                        <span class="ml-3">Statistics</span>
+                    </a>
+                    <a href="Event Dashboard.html" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-button">
+                        <i class="ri-calendar-event-line w-5 h-5 flex items-center justify-center"></i>
+                        <span class="ml-3">Events</span>
+                    </a>
+                     <a href="Event Reports Dashboard.html" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-button">
+                        <i class="ri-file-chart-line w-5 h-5 flex items-center justify-center"></i>
+                        <span class="ml-3">Reports</span>
+                    </a>
+                    <a href="Event Management Settings.html" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-button">
+                        <i class="ri-settings-line w-5 h-5 flex items-center justify-center"></i>
+                        <span class="ml-3">Settings</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+        <main class="flex-1">
+            <header class="bg-white border-b border-gray-200">
+                <div class="flex items-center justify-between px-6 py-4">
+                    <div class="flex items-center flex-1">
+                        <div class="relative w-96">
+                            <input type="text" placeholder="Search events..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-button text-sm">
+                            <i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 flex items-center justify-center"></i>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button id="notificationBtn" class="relative w-10 h-10 flex items-center justify-center text-gray-600 hover:bg-gray-100 rounded-full cursor-pointer">
+                            <i class="ri-notification-line w-5 h-5 flex items-center justify-center"></i>
+                            <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                        </button>
+                        <button id="userMenuBtn" class="flex items-center space-x-3 cursor-pointer">
+                            <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+                                <i class="ri-user-line text-gray-600"></i>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </header>
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h1 class="text-2xl font-semibold text-gray-900">Events</h1>
+                        <p class="text-sm text-gray-600">Manage your events and registrations</p>
+                    </div>
+                    <button id="createEventBtn" class="flex items-center px-4 py-2 bg-primary text-white rounded-button hover:bg-primary/90 cursor-pointer whitespace-nowrap">
+                        <i class="ri-add-line w-5 h-5 flex items-center justify-center"></i>
+                        <span class="ml-2">Create Event</span>
+                    </button>
+                </div>
+                <div class="bg-white rounded-lg shadow">
+                    <div class="p-4 border-b border-gray-200">
+                        <div class="flex flex-wrap gap-4">
+                            <div class="relative">
+                                <input type="date" class="pl-10 pr-4 py-2 border border-gray-300 rounded-button text-sm datepicker">
+                                <i class="ri-calendar-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 flex items-center justify-center"></i>
+                            </div>
+                            <div class="relative">
+                                <select class="pl-10 pr-8 py-2 border border-gray-300 rounded-button text-sm appearance-none">
+                                    <option>All Status</option>
+                                    <option>Active</option>
+                                    <option>Completed</option>
+                                    <option>Cancelled</option>
+                                </select>
+                                <i class="ri-filter-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 flex items-center justify-center"></i>
+                            </div>
+                            <div class="relative">
+                                <select class="pl-10 pr-8 py-2 border border-gray-300 rounded-button text-sm appearance-none">
+                                    <option>All Categories</option>
+                                    <option>Conference</option>
+                                    <option>Workshop</option>
+                                    <option>Seminar</option>
+                                </select>
+                                <i class="ri-price-tag-3-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 flex items-center justify-center"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="bg-gray-50">
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Event</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date & Time</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Attendees</th>
+                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200" id="eventTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <div id="userDropdown" class="dropdown w-56">
+            <div class="p-4 border-b border-gray-200">
+                <p class="text-sm font-medium text-gray-900">Alexander Mitchell</p>
+                <p class="text-sm text-gray-600">alex.mitchell@example.com</p>
+            </div>
+            <div class="py-2">
+                <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <i class="ri-user-settings-line w-5 h-5 flex items-center justify-center"></i>
+                    <span class="ml-3">Profile Settings</span>
+                </a>
+                <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <i class="ri-logout-box-line w-5 h-5 flex items-center justify-center"></i>
+                    <span class="ml-3">Sign out</span>
+                </a>
+            </div>
+        </div>
+        <div id="notificationDropdown" class="notification-panel w-80">
+            <div class="p-4 border-b border-gray-200">
+                <h3 class="text-sm font-medium text-gray-900">Notifications</h3>
+            </div>
+            <div class="py-2" id="notificationList">
+            </div>
+        </div>
+    </div>
+    <div id="createEventModal" class="modal">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-lg mx-auto my-auto p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-semibold text-gray-900">Create New Event</h2>
+                <button class="text-gray-400 hover:text-gray-600" onclick="closeModal('createEventModal')">
+                    <i class="ri-close-line w-6 h-6 flex items-center justify-center"></i>
+                </button>
+            </div>
+            <form id="createEventForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Event Name</label>
+                    <input name="eventName" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-button text-sm" required>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                        <input name="eventDate" type="date" class="w-full px-3 py-2 border border-gray-300 rounded-button text-sm" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Time</label>
+                        <input name="eventTime" type="time" class="w-full px-3 py-2 border border-gray-300 rounded-button text-sm" required>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                    <input name="eventLocation" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-button text-sm" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                    <select name="eventCategory" class="w-full px-3 py-2 border border-gray-300 rounded-button text-sm" required>
+                        <option value="">Select category</option>
+                        <option>Conference</option>
+                        <option>Workshop</option>
+                        <option>Seminar</option>
+                    </select>
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button type="button" class="px-4 py-2 text-gray-700 bg-gray-100 rounded-button hover:bg-gray-200 cursor-pointer whitespace-nowrap" onclick="closeModal('createEventModal')">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-primary text-white rounded-button hover:bg-primary/90 cursor-pointer whitespace-nowrap">Create Event</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="editEventModal" class="modal">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-lg mx-auto my-auto p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-semibold text-gray-900">Edit Event</h2>
+                <button class="text-gray-400 hover:text-gray-600" onclick="closeModal('editEventModal')">
+                    <i class="ri-close-line w-6 h-6 flex items-center justify-center"></i>
+                </button>
+            </div>
+            <form id="editEventForm" class="space-y-4">
+                <input type="hidden" name="eventIndex" id="editEventIndex">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Event Name</label>
+                    <input name="eventName" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-button text-sm" required>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                        <input name="eventDate" type="date" class="w-full px-3 py-2 border border-gray-300 rounded-button text-sm" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Time</label>
+                        <input name="eventTime" type="time" class="w-full px-3 py-2 border border-gray-300 rounded-button text-sm" required>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                    <input name="eventLocation" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-button text-sm" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                    <select name="eventCategory" class="w-full px-3 py-2 border border-gray-300 rounded-button text-sm" required>
+                        <option value="">Select category</option>
+                        <option>Conference</option>
+                        <option>Workshop</option>
+                        <option>Seminar</option>
+                    </select>
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button type="button" class="px-4 py-2 text-gray-700 bg-gray-100 rounded-button hover:bg-gray-200 cursor-pointer whitespace-nowrap" onclick="closeModal('editEventModal')">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-primary text-white rounded-button hover:bg-primary/90 cursor-pointer whitespace-nowrap">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="addAttendeeModal" class="modal">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-lg mx-auto my-auto p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-semibold text-gray-900">Add Attendee</h2>
+                <button class="text-gray-400 hover:text-gray-600" onclick="closeModal('addAttendeeModal')">
+                    <i class="ri-close-line w-6 h-6 flex items-center justify-center"></i>
+                </button>
+            </div>
+            <form id="addAttendeeForm" class="space-y-4">
+                <input type="hidden" name="eventIndex" id="attendeeEventIndex">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Attendee Name</label>
+                    <input name="attendeeName" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-button text-sm" required>
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button type="button" class="px-4 py-2 text-gray-700 bg-gray-100 rounded-button hover:bg-gray-200 cursor-pointer whitespace-nowrap" onclick="closeModal('addAttendeeModal')">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-primary text-white rounded-button hover:bg-primary/90 cursor-pointer whitespace-nowrap">Add Attendee</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        const mockEvents = [
+            {
+                name: "Annual Tech Conference 2025",
+                date: "2025-05-15",
+                time: "09:00 AM",
+                location: "Silicon Valley Convention Center",
+                status: "Active",
+                attendees: [
+                    { name: "John Doe" },
+                    { name: "Jane Smith" }
+                ]
+            },
+            {
+                name: "Digital Marketing Workshop",
+                date: "2025-04-20",
+                time: "02:00 PM",
+                location: "Online",
+                status: "Active",
+                attendees: [
+                    { name: "Alice Johnson" }
+                ]
+            },
+            {
+                name: "Leadership Summit",
+                date: "2025-06-10",
+                time: "10:00 AM",
+                location: "Grand Hyatt Hotel",
+                status: "Upcoming",
+                attendees: []
+            },
+            {
+                name: "Product Launch Event",
+                date: "2025-03-25",
+                time: "03:30 PM",
+                location: "Innovation Hub",
+                status: "Completed",
+                attendees: []
+            },
+            {
+                name: "Startup Networking Mixer",
+                date: "2025-04-05",
+                time: "06:00 PM",
+                location: "Startup Incubator",
+                status: "Active",
+                attendees: []
+            }
+        ];
+
+        const mockNotifications = [
+            {
+                title: "New Registration",
+                message: "John Anderson registered for Annual Tech Conference",
+                time: "5 minutes ago"
+            },
+            {
+                title: "Event Update",
+                message: "Digital Marketing Workshop location changed",
+                time: "1 hour ago"
+            },
+            {
+                title: "Reminder",
+                message: "Leadership Summit starting in 2 days",
+                time: "2 hours ago"
+            }
+        ];
+
+        function populateEventTable() {
+            const tableBody = document.getElementById('eventTableBody');
+            tableBody.innerHTML = mockEvents.map((event, index) => `
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-gray-900">${event.name}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-500">${event.date}<br>${event.time}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-500">${event.location}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                            event.status === 'Active' ? 'bg-green-100 text-green-800' :
+                            event.status === 'Completed' ? 'bg-gray-100 text-gray-800' :
+                            'bg-yellow-100 text-yellow-800'
+                        }">${event.status}</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        ${event.attendees.length}
+                        <button class="ml-2 text-blue-600 hover:text-blue-800" onclick="openAddAttendeeModal(${index})">Add Attendee</button>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <button class="text-primary hover:text-primary/80 cursor-pointer" onclick="openEditModal(${index})">Edit</button>
+                        <button class="ml-3 text-red-600 hover:text-red-800 cursor-pointer" onclick="deleteEvent(${index})">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function populateNotifications() {
+            const notificationList = document.getElementById('notificationList');
+            notificationList.innerHTML = mockNotifications.map(notification => `
+                <div class="px-4 py-3 hover:bg-gray-50">
+                    <p class="text-sm font-medium text-gray-900">${notification.title}</p>
+                    <p class="text-sm text-gray-600">${notification.message}</p>
+                    <p class="text-xs text-gray-400 mt-1">${notification.time}</p>
+                </div>
+            `).join('');
+        }
+
+        function toggleDropdown(dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            dropdown.classList.toggle('active');
+        }
+
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('active');
+        }
+
+        function openEditModal(index) {
+            const event = mockEvents[index];
+            document.getElementById('editEventIndex').value = index;
+            document.querySelector('#editEventForm [name="eventName"]').value = event.name;
+            document.querySelector('#editEventForm [name="eventDate"]').value = event.date;
+            document.querySelector('#editEventForm [name="eventTime"]').value = event.time;
+            document.querySelector('#editEventForm [name="eventLocation"]').value = event.location;
+            document.querySelector('#editEventForm [name="eventCategory"]').value = event.category || '';
+            openModal('editEventModal');
+        }
+
+        function openAddAttendeeModal(index) {
+            document.getElementById('attendeeEventIndex').value = index;
+            openModal('addAttendeeModal');
+        }
+
+        function deleteEvent(index) {
+            mockEvents.splice(index, 1);
+            populateEventTable();
+        }
+
+        document.getElementById('userMenuBtn').addEventListener('click', () => toggleDropdown('userDropdown'));
+        document.getElementById('notificationBtn').addEventListener('click', () => toggleDropdown('notificationDropdown'));
+        document.getElementById('createEventBtn').addEventListener('click', () => openModal('createEventModal'));
+        document.getElementById('createEventForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const newEvent = {
+                name: formData.get('eventName'),
+                date: formData.get('eventDate'),
+                time: formData.get('eventTime'),
+                location: formData.get('eventLocation'),
+                status: 'Active',
+                attendees: [] // Initialize with an empty array
+            };
+            mockEvents.push(newEvent);
+            populateEventTable();
+            closeModal('createEventModal');
+            e.target.reset(); // Reset the form
+        });
+
+        document.getElementById('editEventForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const index = formData.get('eventIndex');
+            mockEvents[index] = {
+                name: formData.get('eventName'),
+                date: formData.get('eventDate'),
+                time: formData.get('eventTime'),
+                location: formData.get('eventLocation'),
+                status: 'Active',
+                attendees: mockEvents[index].attendees // Keep the same attendees
+            };
+            populateEventTable();
+            closeModal('editEventModal');
+        });
+
+        document.getElementById('addAttendeeForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const index = formData.get('eventIndex');
+            const attendeeName = formData.get('attendeeName');
+            mockEvents[index].attendees.push({ name: attendeeName });
+            populateEventTable();
+            closeModal('addAttendeeModal');
+            e.target.reset(); // Reset the form
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#userMenuBtn') && !e.target.closest('#userDropdown')) {
+                document.getElementById('userDropdown').classList.remove('active');
+            }
+            if (!e.target.closest('#notificationBtn') && !e.target.closest('#notificationDropdown')) {
+                document.getElementById('notificationDropdown').classList.remove('active');
+            }
+        });
+
+        populateEventTable();
+        populateNotifications();
+    </script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVNTIFY Event Registration</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="logo">EVNTIFY</div>
+        <h1>Event Registration Form</h1>
+        
+        <form id="eventRegistrationForm">
+            <div class="form-group">
+                <label for="email" class="required">Email Address</label>
+                <input type="email" id="email" name="email" required placeholder="yourname@example.com">
+            </div>
+            
+            <div class="form-group">
+                <label for="fullName" class="required">Full Name</label>
+                <input type="text" id="fullName" name="fullName" required placeholder="John Doe">
+            </div>
+            
+            <div class="form-group">
+                <label for="eventName" class="required">Event Name</label>
+                <select id="eventName" name="eventName" required>
+                    <option value="">-- Select Event --</option>
+                    <option value="Annual Conference 2025">Annual Conference 2025</option>
+                    <option value="Summer Music Festival">Summer Music Festival</option>
+                    <option value="Tech Innovation Summit">Tech Innovation Summit</option>
+                    <option value="Charity Gala Dinner">Charity Gala Dinner</option>
+                    <option value="Corporate Leadership Retreat">Corporate Leadership Retreat</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="totalSeats" class="required">Total Number of Seats</label>
+                <input type="number" id="totalSeats" name="totalSeats" min="1" required placeholder="Total seats required">
+            </div>
+            
+            <div class="row">
+                <div class="form-group">
+                    <label for="adultCount" class="required">Number of Adults</label>
+                    <input type="number" id="adultCount" name="adultCount" min="0" required placeholder="Adults attending">
+                </div>
+                
+                <div class="form-group">
+                    <label for="childCount">Number of Children</label>
+                    <input type="number" id="childCount" name="childCount" min="0" placeholder="Children attending">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="specialRequests">Special Requests or Requirements</label>
+                <input type="text" id="specialRequests" name="specialRequests" placeholder="Any dietary restrictions, accessibility needs, etc.">
+            </div>
+            
+            <button type="submit">Submit Registration</button>
+            
+            <div class="payment-section">
+                <h3>Payment Options</h3>
+                <p>Scan the QR code below to complete your payment</p>
+                <div class="qr-code">
+                    <img src="qr.jpg" alt="Payment QR Code">
+                </div>
+                <p class="note">After scanning, please wait for payment confirmation before leaving this page.</p>
+            </div>
+        </form>
+    </div>
+<script src="script.js"></script>
+  </body>
+</html>

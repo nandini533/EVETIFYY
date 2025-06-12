@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings | Event Management System</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#4f46e5',
+secondary: '#6366f1'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+}
+}
+}
+}
+</script>
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+@keyframes fade-in {
+from { opacity: 0; transform: translateY(-1rem); }
+to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-out {
+from { opacity: 1; transform: translateY(0); }
+to { opacity: 0; transform: translateY(-1rem); }
+}
+.animate-fade-in {
+animation: fade-in 0.3s ease-out forwards;
+}
+.animate-fade-out {
+animation: fade-out 0.3s ease-out forwards;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #3498db;
+</style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+<div class="flex min-h-screen">
+<aside class="w-64 bg-white border-r border-gray-200 flex flex-col">
+  <div class="container header-container">
+                <a href="#" class="logo">EVNTIFY</a>
+            </div>
+<nav class="flex-1 p-4">
+<div class="space-y-2">
+<a href="eventbase.html" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-button">
+                        <i class="ri-home-line w-5 h-5 flex items-center justify-center"></i>
+                        <span class="ml-3">Home</span>
+                    </a>
+
+ <a href="Event Analytics Dashboard.html" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-button">
+                        <i class="ri-dashboard-line w-5 h-5 flex items-center justify-center"></i>
+                        <span class="ml-3">Statistics</span>
+                    </a>
+                    <a href="Event Dashboard.html" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-button">
+                        <i class="ri-calendar-event-line w-5 h-5 flex items-center justify-center"></i>
+                        <span class="ml-3">Events</span>
+                    </a>
+                    <a href="Event Reports Dashboard.html" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-button">
+                        <i class="ri-file-chart-line w-5 h-5 flex items-center justify-center"></i>
+                        <span class="ml-3">Reports</span>
+                    </a>
+                    <a href="Event Management Settings.html" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-button">
+                        <i class="ri-settings-line w-5 h-5 flex items-center justify-center"></i>
+                        <span class="ml-3">Settings</span>
+                    </a>
+
+</div>
+</nav>
+</aside>
+<main class="flex-1">
+<header class="bg-white border-b border-gray-200">
+<div class="flex items-center justify-between px-6 py-4">
+<div class="flex items-center space-x-4">
+<a href="Event Reports Dashboard.html" class="text-gray-600 hover:text-gray-900">
+<i class="ri-arrow-left-line w-5 h-5 flex items-center justify-center"></i>
+</a>
+<h1 class="text-xl font-semibold text-gray-900">Settings</h1>
+</div>
+<div class="flex items-center space-x-4">
+<button class="relative w-10 h-10 flex items-center justify-center text-gray-600 hover:bg-gray-100 rounded-full">
+<i class="ri-notification-line w-5 h-5 flex items-center justify-center"></i>
+<span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+</button>
+<div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+<i class="ri-user-line text-gray-600"></i>
+</div>
+</div>
+</div>
+</header>
+<div class="p-6">
+<div class="grid grid-cols-3 gap-6">
+<div class="col-span-2 space-y-6">
+<div class="bg-white rounded-lg shadow-sm">
+<div class="p-6 border-b border-gray-200">
+<h2 class="text-lg font-semibold text-gray-900">General Settings</h2>
+</div>
+<div class="p-6 space-y-6">
+<div class="grid grid-cols-2 gap-6">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Language</label>
+<div class="relative">
+<button id="languageSelect" class="w-full flex items-center justify-between px-4 py-2 border border-gray-300 rounded-button text-sm" onclick="toggleDropdown('languageDropdown')">
+<span id="selectedLanguage">English (US)</span>
+<i class="ri-arrow-down-s-line"></i>
+</button>
+<div id="languageDropdown" class="hidden absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg">
+<div class="py-1">
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="selectLanguage('English (US)')">English (US)</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="selectLanguage('English (UK)')">English (UK)</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="selectLanguage('Spanish')">Spanish</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="selectLanguage('French')">French</a>
+</div>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Timezone</label>
+<div class="relative">
+<button id="timezoneSelect" class="w-full flex items-center justify-between px-4 py-2 border border-gray-300 rounded-button text-sm" onclick="toggleDropdown('timezoneDropdown')">
+<span id="selectedTimezone">Pacific Time (PT)</span>
+<i class="ri-arrow-down-s-line"></i>
+</button>
+<div id="timezoneDropdown" class="hidden absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg">
+<div class="py-1">
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="selectTimezone('Pacific Time (PT)')">Pacific Time (PT)</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="selectTimezone('Eastern Time (ET)')">Eastern Time (ET)</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="selectTimezone('Central Time (CT)')">Central Time (CT)</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="selectTimezone('Mountain Time (MT)')">Mountain Time (MT)</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-sm">
+<div class="p-6 border-b border-gray-200">
+<h2 class="text-lg font-semibold text-gray-900">Event Settings</h2>
+</div>
+<div class="p-6 space-y-6">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Default Event Duration</label>
+<div class="relative w-48">
+<input type="number" class="w-full px-4 py-2 border border-gray-300 rounded-button text-sm" value="60" min="15" max="480" step="15">
+<span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-500">minutes</span>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Event Categories</label>
+<div class="space-y-2" id="eventCategories">
+<div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+<span class="text-sm text-gray-700">Conference</span>
+<button class="text-red-600 hover:text-red-700" onclick="removeCategory(this)">
+<i class="ri-delete-bin-line w-5 h-5 flex items-center justify-center"></i>
+</button>
+</div>
+<div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+<span class="text-sm text-gray-700">Workshop</span>
+<button class="text-red-600 hover:text-red-700" onclick="removeCategory(this)">
+<i class="ri-delete-bin-line w-5 h-5 flex items-center justify-center"></i>
+</button>
+</div>
+<div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+<span class="text-sm text-gray-700">Seminar</span>
+<button class="text-red-600 hover:text-red-700" onclick="removeCategory(this)">
+<i class="ri-delete-bin-line w-5 h-5 flex items-center justify-center"></i>
+</button>
+</div>
+</div>
+<button class="mt-4 flex items-center text-sm text-primary hover:text-primary/90" onclick="addCategory()">
+<i class="ri-add-line w-4 h-4 flex items-center justify-center mr-1"></i>
+Add Category
+</button>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-sm">
+<div class="p-6 border-b border-gray-200">
+<h2 class="text-lg font-semibold text-gray-900">Notification Settings</h2>
+</div>
+<div class="p-6 space-y-6">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="text-sm font-medium text-gray-900">Email Notifications</h3>
+<p class="text-sm text-gray-500">Receive email updates about your events</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input type="checkbox" class="sr-only peer notification-toggle" data-type="email" checked onchange="toggleNotification(this)">
+<div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<h3 class="text-sm font-medium text-gray-900">Push Notifications</h3>
+<p class="text-sm text-gray-500">Get push notifications in your browser</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input type="checkbox" class="sr-only peer notification-toggle" data-type="push" onchange="toggleNotification(this)">
+<div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<div class="col-span-1 space-y-6">
+<div class="bg-white rounded-lg shadow-sm">
+<div class="p-6 border-b border-gray-200">
+<h2 class="text-lg font-semibold text-gray-900">Integration Settings</h2>
+</div>
+<div class="p-6 space-y-4">
+<div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+<div class="flex items-center space-x-3">
+<i class="ri-google-fill w-6 h-6 flex items-center justify-center text-red-500"></i>
+<div>
+<h3 class="text-sm font-medium text-gray-900">Google Calendar</h3>
+<p class="text-xs text-gray-500">Sync your events</p>
+</div>
+</div>
+<button onclick="toggleConnection('google')" class="connect-btn px-3 py-1 text-sm text-white bg-primary rounded-button hover:bg-primary/90" data-service="google">Connect</button>
+</div>
+<div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+<div class="flex items-center space-x-3">
+<i class="ri-microsoft-fill w-6 h-6 flex items-center justify-center text-blue-500"></i>
+<div>
+<h3 class="text-sm font-medium text-gray-900">Microsoft Teams</h3>
+<p class="text-xs text-gray-500">Meeting integration</p>
+</div>
+</div>
+<button onclick="toggleConnection('microsoft')" class="connect-btn px-3 py-1 text-sm text-white bg-primary rounded-button hover:bg-primary/90" data-service="microsoft">Connect</button>
+</div>
+<div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+<div class="flex items-center space-x-3">
+<i class="ri-slack-fill w-6 h-6 flex items-center justify-center text-purple-500"></i>
+<div>
+<h3 class="text-sm font-medium text-gray-900">Slack</h3>
+<p class="text-xs text-gray-500">Chat notifications</p>
+</div>
+</div>
+<button onclick="toggleConnection('slack')" class="connect-btn px-3 py-1 text-sm text-white bg-primary rounded-button hover:bg-primary/90" data-service="slack">Connect</button>
+</div>
+<div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+<div class="bg-white rounded-lg w-[480px] max-w-lg mx-4">
+<div class="p-6 space-y-4">
+<div class="flex items-center space-x-3">
+<div id="serviceIcon" class="w-12 h-12 flex items-center justify-center rounded-lg"></div>
+<div>
+<h3 id="serviceName" class="text-xl font-semibold text-gray-900"></h3>
+<p class="text-sm text-gray-500">would like to access your account</p>
+</div>
+</div>
+<div class="bg-gray-50 rounded-lg p-4 space-y-2">
+<p class="text-sm font-medium text-gray-900">This application will be able to:</p>
+<ul id="permissionsList" class="text-sm text-gray-600 space-y-2 list-disc list-inside">
+</ul>
+</div>
+</div>
+<div class="px-6 py-4 bg-gray-50 rounded-b-lg flex justify-end space-x-3">
+<button onclick="closeAuthModal()" class="px-4 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-button hover:bg-gray-50">Cancel</button>
+<button onclick="authorizeService()" class="px-4 py-2 text-sm text-white bg-primary rounded-button hover:bg-primary/90">Allow Access</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-sm">
+<div class="p-6 border-b border-gray-200">
+<h2 class="text-lg font-semibold text-gray-900">API Access</h2>
+</div>
+<div class="p-6">
+<div class="bg-gray-50 p-4 rounded-lg">
+<p class="text-sm text-gray-700 mb-4">Your API Key</p>
+<div class="flex items-center space-x-2">
+<input type="text" value="sk_live_51ABC123DEF456GHI" class="flex-1 px-4 py-2 bg-white border border-gray-300 rounded-button text-sm" readonly>
+<button class="p-2 text-gray-600 hover:text-gray-900 rounded-button" onclick="copyApiKey()">
+<i class="ri-file-copy-line w-5 h-5 flex items-center justify-center"></i>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed bottom-6 right-6">
+<button id="saveButton" class="px-6 py-2 bg-primary text-white rounded-button hover:bg-primary/90 shadow-lg">
+Save Changes
+</button>
+</div>
+</main>
+</div>
+<div id="toast" class="fixed top-4 right-4 hidden bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg">
+Settings saved successfully!
+</div>
+<script>
+const serviceConfig = {
+google: {
+name: 'Google Calendar',
+icon: 'ri-google-fill',
+iconColor: 'text-red-500',
+permissions: [
+'View and edit your calendar',
+'Create and modify events',
+'Send notifications on your behalf'
+]
+},
+microsoft: {
+name: 'Microsoft Teams',
+icon: 'ri-microsoft-fill',
+iconColor: 'text-blue-500',
+permissions: [
+'Access your Teams meetings',
+'Schedule new meetings',
+'Send meeting invitations'
+]
+},
+slack: {
+name: 'Slack',
+icon: 'ri-slack-fill',
+iconColor: 'text-purple-500',
+permissions: [
+'Send notifications to channels',
+'Post messages on your behalf',
+'Access workspace information'
+]
+}
+};
+function toggleConnection(service) {
+const btn = document.querySelector(`button[data-service="${service}"]`);
+if (btn.classList.contains('connected')) {
+disconnectService(service);
+} else {
+showAuthModal(service);
+}
+}
+function showAuthModal(service) {
+const modal = document.getElementById('authModal');
+const config = serviceConfig[service];
+document.getElementById('serviceIcon').innerHTML = `<i class="${config.icon} text-2xl ${config.iconColor}"></i>`;
+document.getElementById('serviceName').textContent = config.name;
+const permissionsList = document.getElementById('permissionsList');
+permissionsList.innerHTML = config.permissions.map(perm => `<li>${perm}</li>`).join('');
+modal.classList.remove('hidden');
+currentService = service;
+}
+function closeAuthModal() {
+document.getElementById('authModal').classList.add('hidden');
+}
+let currentService = null;
+function authorizeService() {
+const btn = document.querySelector(`button[data-service="${currentService}"]`);
+btn.innerHTML = `
+<span class="flex items-center">
+Connected
+<i class="ri-check-line ml-1"></i>
+</span>
+`;
+btn.classList.add('connected', 'bg-green-600');
+btn.classList.remove('bg-primary');
+closeAuthModal();
+showToast(`Successfully connected to ${serviceConfig[currentService].name}`);
+}
+function disconnectService(service) {
+const btn = document.querySelector(`button[data-service="${service}"]`);
+btn.textContent = 'Connect';
+btn.classList.remove('connected', 'bg-green-600');
+btn.classList.add('bg-primary');
+showToast(`Disconnected from ${serviceConfig[service].name}`);
+}
+function toggleDropdown(id) {
+const dropdown = document.getElementById(id);
+const allDropdowns = document.querySelectorAll('[id$="Dropdown"]');
+allDropdowns.forEach(d => {
+if (d.id !== id) d.classList.add('hidden');
+});
+dropdown.classList.toggle('hidden');
+}
+function selectLanguage(language) {
+const languageButton = document.getElementById('selectedLanguage');
+const languageDropdown = document.getElementById('languageDropdown');
+// Show loading state
+languageButton.innerHTML = `
+<div class="flex items-center">
+<i class="ri-loader-4-line w-4 h-4 flex items-center justify-center animate-spin mr-2"></i>
+Updating...
+</div>
+`;
+// Close dropdown
+languageDropdown.classList.add('hidden');
+// Simulate API call to save language preference
+setTimeout(() => {
+try {
+// Update button text
+languageButton.textContent = language;
+// Save to localStorage for persistence
+localStorage.setItem('userLanguage', language);
+// Update UI text with UK English variants if UK English is selected
+if (language === 'English (UK)') {
+const textMappings = {
+'Customize': 'Customise',
+'Synchronize': 'Synchronise',
+'Organization': 'Organisation',
+'Calendar': 'Calendar',
+'Center': 'Centre'
+};
+document.querySelectorAll('*').forEach(element => {
+if (element.childNodes.length === 1 && element.childNodes[0].nodeType === 3) {
+Object.entries(textMappings).forEach(([us, uk]) => {
+element.textContent = element.textContent.replace(new RegExp(us, 'g'), uk);
+});
+}
+});
+}
+// Show success toast
+showToast(`Language successfully updated to ${language}`, 'success');
+} catch (error) {
+// Revert on error
+languageButton.textContent = localStorage.getItem('userLanguage') || 'English (US)';
+showToast('Failed to update language. Please try again.', 'error');
+}
+}, 800);
+}
+// On page load, set the saved language
+document.addEventListener('DOMContentLoaded', () => {
+const savedLanguage = localStorage.getItem('userLanguage');
+if (savedLanguage) {
+selectLanguage(savedLanguage);
+}
+});
+function selectTimezone(timezone) {
+const timezoneButton = document.getElementById('selectedTimezone');
+const timezoneDropdown = document.getElementById('timezoneDropdown');
+// Show loading state
+timezoneButton.innerHTML = `
+<div class="flex items-center">
+<i class="ri-loader-4-line w-4 h-4 flex items-center justify-center animate-spin mr-2"></i>
+Updating...
+</div>
+`;
+// Close dropdown
+timezoneDropdown.classList.add('hidden');
+// Simulate API call to save timezone
+setTimeout(() => {
+try {
+// Update button text
+timezoneButton.textContent = timezone;
+// Show success toast
+showToast(`Timezone successfully updated to ${timezone}`, 'success');
+// Save to localStorage for persistence
+localStorage.setItem('userTimezone', timezone);
+// Simulate updating all date/time displays
+const dates = document.querySelectorAll('[data-timezone]');
+dates.forEach(date => {
+if(date.dataset.timezone) {
+// Here you would actually convert the date to the new timezone
+console.log(`Converting ${date.textContent} to ${timezone}`);
+}
+});
+} catch (error) {
+// Revert on error
+timezoneButton.textContent = localStorage.getItem('userTimezone') || 'Pacific Time (PT)';
+showToast('Failed to update timezone. Please try again.', 'error');
+}
+}, 800);
+}
+function removeCategory(button) {
+button.closest('div').remove();
+}
+function addCategory() {
+const container = document.getElementById('eventCategories');
+const newCategory = document.createElement('div');
+newCategory.className = 'flex items-center justify-between p-3 bg-gray-50 rounded-lg';
+newCategory.innerHTML = `
+<input type="text" class="text-sm text-gray-700 bg-transparent border-none focus:outline-none" placeholder="Enter category name">
+<button class="text-red-600 hover:text-red-700" onclick="removeCategory(this)">
+<i class="ri-delete-bin-line w-5 h-5 flex items-center justify-center"></i>
+</button>
+`;
+container.appendChild(newCategory);
+newCategory.querySelector('input').focus();
+}
+function copyApiKey() {
+const apiKey = document.querySelector('input[readonly]');
+navigator.clipboard.writeText(apiKey.value);
+showToast('API key copied to clipboard');
+}
+function showToast(message, type = 'success') {
+const toast = document.getElementById('toast');
+toast.textContent = message;
+toast.classList.remove('hidden', 'bg-green-500', 'bg-red-500');
+toast.classList.add(type === 'success' ? 'bg-green-500' : 'bg-red-500');
+toast.classList.add('animate-fade-in');
+setTimeout(() => {
+toast.classList.remove('animate-fade-in');
+toast.classList.add('animate-fade-out');
+setTimeout(() => {
+toast.classList.add('hidden');
+toast.classList.remove('animate-fade-out');
+}, 300);
+}, 2700);
+}
+function toggleNotification(checkbox) {
+const type = checkbox.dataset.type;
+const isEnabled = checkbox.checked;
+const notificationType = type === 'email' ? 'Email' : 'Push';
+const actionText = isEnabled ? 'enable' : 'disable';
+// Revert the checkbox state temporarily
+checkbox.checked = !isEnabled;
+// Create and show confirmation dialog
+const dialog = document.createElement('div');
+dialog.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+dialog.innerHTML = `
+<div class="bg-white rounded-lg w-[400px] max-w-lg mx-4 animate-fade-in">
+<div class="p-6">
+<h3 class="text-lg font-semibold text-gray-900 mb-2">Confirm ${notificationType} Notifications</h3>
+<p class="text-sm text-gray-600">
+Are you sure you want to ${actionText} ${notificationType.toLowerCase()} notifications?
+${isEnabled ?
+`You will receive notifications about event updates and important announcements.` :
+`You will no longer receive ${notificationType.toLowerCase()} notifications about events and updates.`
+}
+</p>
+</div>
+<div class="px-6 py-4 bg-gray-50 rounded-b-lg flex justify-end space-x-3">
+<button class="px-4 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-button hover:bg-gray-50">
+Cancel
+</button>
+<button class="px-4 py-2 text-sm text-white bg-primary rounded-button hover:bg-primary/90">
+Confirm
+</button>
+</div>
+</div>
+`;
+document.body.appendChild(dialog);
+// Handle button clicks
+const [cancelBtn, confirmBtn] = dialog.querySelectorAll('button');
+cancelBtn.onclick = () => {
+dialog.classList.add('animate-fade-out');
+setTimeout(() => dialog.remove(), 300);
+};
+confirmBtn.onclick = () => {
+// Update checkbox state
+checkbox.checked = isEnabled;
+// Remove dialog
+dialog.classList.add('animate-fade-out');
+setTimeout(() => dialog.remove(), 300);
+// Simulate API call
+setTimeout(() => {
+try {
+const actionText = isEnabled ? 'enabled' : 'disabled';
+showToast(`${notificationType} notifications ${actionText}`, 'success');
+} catch (error) {
+checkbox.checked = !isEnabled;
+showToast(`Failed to update ${notificationType.toLowerCase()} notification settings`, 'error');
+}
+}, 300);
+};
+}
+document.getElementById('saveButton').addEventListener('click', () => {
+showToast('Settings saved successfully!');
+});
+document.addEventListener('click', (e) => {
+const dropdowns = document.querySelectorAll('[id$="Dropdown"]');
+dropdowns.forEach(dropdown => {
+const button = document.getElementById(dropdown.id.replace('Dropdown', 'Select'));
+if (!dropdown.contains(e.target) && !button.contains(e.target)) {
+dropdown.classList.add('hidden');
+}
+});
+});
+</script>
+</body>
+</html>
